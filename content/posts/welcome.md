@@ -1,28 +1,28 @@
 ---
-title: Welcome to My New Homepage
+title: 为什么我把主页改成了中文多页面站点
 slug: welcome
 date: 2026-04-18
-category: Start Here
-summary: Why I replaced a minimal profile page with a homepage that can grow into a real writing space.
+category: 起步
+summary: 从一个极简个人页，改成一个可以持续更新、支持多页面跳转的中文主页。
 featured: true
-tags: [homepage, workflow, notes]
+tags: [主页, 工作流, 笔记]
 ---
 
-This is the first post on the new site. It is not a tutorial. It is a short explanation of why I moved away from a very small personal page and started building a homepage that can keep accumulating structure.
+这是这个网站的第一篇文章。它不是教程，而是对我为什么不再满足于一个极简个人页、而开始搭建一个可以持续积累内容的中文主页的简短说明。
 
-## Why I changed it
+## 为什么要改
 
-Many personal websites stop at the same point: a name, a school, a few interests, and an email address. That kind of page is useful, but it behaves more like a business card than a working archive.
+很多个人主页最终都会停留在同一种状态：姓名、学校、几个兴趣关键词、一个邮箱。这样的页面当然有用，但它更像一张电子名片，而不是一个真正会持续增长的工作档案。
 
-I wanted this site to do more than introduce me briefly. It should also help me organize my own work: research interests, project notes, reading summaries, and longer writing. A homepage becomes more valuable when it keeps adding context instead of staying fixed.
+我希望这个网站不只是做一个简短介绍。它还应该帮我整理自己的内容，包括研究兴趣、项目记录、阅读摘要，以及一些长度更长的思考。一个主页如果能不断补充上下文，而不是停留在最初版本，就会更有价值。
 
-## What this site is for
+## 这个站点用来做什么
 
-- A clear public profile
-- A stable entry point for research interests
-- A place to collect notes and project logs
-- A writing space for reflections that are too long for a repository README
+- 作为一个清晰的公开介绍入口
+- 作为研究兴趣的稳定展示页
+- 作为笔记和项目记录的归档空间
+- 作为一个比仓库 README 更适合长文写作的地方
 
-## What comes next
+## 接下来会怎么做
 
-I plan to keep refining the homepage as more work becomes public. That includes project updates, reading notes, and a better overview of what I am actually building. The structure is intentionally simple so that publishing stays easy and writing remains the main focus.
+后面我会继续完善这个主页，把更多公开内容逐步放上来，包括项目更新、阅读笔记，以及对自己到底在做什么的一份更清楚的说明。整体结构会尽量保持简单，这样发布会更轻量，写作本身才会继续成为重点。

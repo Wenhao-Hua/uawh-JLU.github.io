@@ -1,101 +1,101 @@
 {
   "site": {
     "title": "Wenhao Hua",
-    "description": "Personal homepage and research blog for Wenhao Hua.",
+    "description": "Wenhao Hua 的个人主页与研究博客。",
     "author": "Wenhao Hua",
-    "affiliation": "Jilin University",
+    "affiliation": "吉林大学",
     "email": "huawh5523@mails.jlu.edu.cn",
     "homepage": "https://wenhao-hua.github.io/",
     "github": "https://github.com/Wenhao-Hua"
   },
   "hero": {
-    "eyebrow": "Personal Homepage",
-    "headline": "Research notes, project logs, and a clearer public profile.",
-    "summary": "I am an undergraduate student at Jilin University. This site is where I collect what I am learning around time series analysis, large language models, and memory-oriented methods.",
-    "primaryLabel": "Read recent posts",
+    "eyebrow": "个人主页",
+    "headline": "把研究笔记、项目记录和公开介绍放到同一个长期更新的主页里。",
+    "summary": "我是吉林大学本科生。这个网站用来整理我在时间序列分析、大语言模型和记忆机制方向上的阅读、思考与实践，也作为一个持续生长的个人主页。",
+    "primaryLabel": "阅读最新文章",
     "primaryHref": "#writing",
-    "secondaryLabel": "Open GitHub",
+    "secondaryLabel": "打开 GitHub",
     "secondaryHref": "https://github.com/Wenhao-Hua",
-    "panelLabel": "Current Focus",
-    "panelTitle": "What I am exploring now",
+    "panelLabel": "当前关注",
+    "panelTitle": "最近主要在看什么",
     "panelItems": [
-      "Time series analysis and long-horizon modeling",
-      "Large language models for research workflows",
-      "Memory mechanisms, retrieval, and compression",
-      "A lightweight writing workflow powered by Markdown"
+      "时间序列分析与长时预测建模",
+      "面向研究流程的大语言模型应用",
+      "记忆机制、检索与压缩方法",
+      "基于 Markdown 的轻量写作与发布流程"
     ]
   },
   "highlights": [
     {
-      "label": "Affiliation",
-      "value": "Jilin University"
+      "label": "学校",
+      "value": "吉林大学"
     },
     {
-      "label": "Interests",
-      "value": "Time Series / LLMs / Memory"
+      "label": "兴趣方向",
+      "value": "时间序列 / 大模型 / 记忆机制"
     },
     {
-      "label": "Site Type",
-      "value": "Homepage + Static Blog"
+      "label": "站点类型",
+      "value": "个人主页 + 静态博客"
     },
     {
-      "label": "Publishing",
+      "label": "部署方式",
       "value": "GitHub Pages"
     }
   ],
   "about": {
-    "title": "A simple academic homepage that can keep growing",
-    "copy": "Instead of a single static profile card, this site is meant to accumulate context over time.",
-    "lead": "I am an undergraduate student at Jilin University with interests in time series analysis, large language models, and memory-centered modeling ideas.",
-    "body": "The goal of this homepage is to give me one place to publish notes, explain what I am working on, and keep a public trail of projects and reading. As the work becomes more concrete, the site can expand without changing the underlying structure.",
+    "title": "一个可以持续扩展的中文个人主页",
+    "copy": "它不只是一个静态名片页，而是一个会随着学习和项目不断积累内容的站点。",
+    "lead": "我是吉林大学本科生，关注时间序列分析、大语言模型，以及围绕记忆机制展开的建模问题。",
+    "body": "我希望这个主页能同时承担几个角色：对外介绍、研究方向整理、项目记录归档，以及较长篇幅的写作空间。后续即使内容越来越多，也可以在不推翻结构的前提下继续扩展。",
     "keywords": [
-      "Time Series Analysis",
-      "Large Language Models",
-      "Memory Mechanisms",
-      "Research Notes",
-      "Project Logs"
+      "时间序列分析",
+      "大语言模型",
+      "记忆机制",
+      "研究笔记",
+      "项目记录"
     ]
   },
   "research": {
-    "title": "Research themes I want to keep pushing",
-    "copy": "These are not fixed claims about expertise. They are the areas this homepage will organize around.",
+    "title": "我想持续推进的几个研究方向",
+    "copy": "这些内容不是对现阶段能力的夸张描述，而是这个主页将长期围绕组织的主题。",
     "items": [
       {
         "kicker": "01",
-        "title": "Time Series Learning",
-        "body": "Forecasting, representation learning, and robust modeling for structured temporal signals."
+        "title": "时间序列学习",
+        "body": "围绕结构化时间信号的预测、表示学习和更稳健的建模方法。"
       },
       {
         "kicker": "02",
-        "title": "LLM-Centered Systems",
-        "body": "How large language models can support reasoning, tooling, and research-oriented workflows."
+        "title": "以大模型为核心的系统",
+        "body": "关注大语言模型如何支持推理、工具调用，以及面向研究的工作流。"
       },
       {
         "kicker": "03",
-        "title": "Memory as Infrastructure",
-        "body": "Retrieval, compression, and memory-bank style mechanisms for longer context and better decisions."
+        "title": "把记忆当作基础能力",
+        "body": "研究检索、压缩和 memory bank 一类机制，提升长上下文处理与决策能力。"
       }
     ]
   },
   "building": {
-    "title": "What this site will hold",
-    "copy": "The homepage is designed as an archive, not only as a landing page.",
+    "title": "这个站点准备承载的内容",
+    "copy": "这个主页被设计成一个长期归档空间，而不只是一个落地页。",
     "items": [
       {
-        "label": "Writing",
-        "title": "Research notes and reflections",
-        "body": "Short posts for reading notes, implementation ideas, and progress summaries.",
+        "label": "写作",
+        "title": "研究笔记与阶段性思考",
+        "body": "用较短的文章记录阅读笔记、实现想法和阶段进展。",
         "href": "#writing"
       },
       {
-        "label": "Profile",
-        "title": "A stable public introduction",
-        "body": "A homepage that can describe interests, contact details, and evolving work without redesigning everything."
+        "label": "主页",
+        "title": "一个稳定的公开介绍入口",
+        "body": "在不反复重做结构的前提下，持续补充研究兴趣、联系方式和正在推进的工作。"
       },
       {
-        "label": "Code",
-        "title": "GitHub-first publishing workflow",
-        "body": "Markdown sources and generated static files live in the same repository for easy GitHub Pages deployment.",
+        "label": "代码",
+        "title": "以 GitHub 为中心的发布流程",
+        "body": "Markdown 源文件和生成后的静态页面都放在同一仓库里，便于直接部署到 GitHub Pages。",
         "href": "https://github.com/Wenhao-Hua/Wenhao-Hua.github.io"
       }
     ]
@@ -104,21 +104,21 @@
     {
       "label": "GitHub",
       "href": "https://github.com/Wenhao-Hua",
-      "meta": "Code, repositories, and public experiments"
+      "meta": "代码仓库、公开实验和项目记录"
     },
     {
-      "label": "Homepage Repository",
+      "label": "主页仓库",
       "href": "https://github.com/Wenhao-Hua/Wenhao-Hua.github.io",
-      "meta": "Source files and generated pages"
+      "meta": "站点源文件与生成后的静态页面"
     },
     {
-      "label": "Email",
+      "label": "邮箱",
       "href": "mailto:huawh5523@mails.jlu.edu.cn",
-      "meta": "Best contact channel for now"
+      "meta": "目前最直接的联系渠道"
     }
   ],
   "contact": {
-    "title": "Find me online",
-    "copy": "The fastest way to understand what this site is becoming is to read the writing section below and then jump to GitHub."
+    "title": "在线联系我",
+    "copy": "如果你想快速了解这个站点会发展成什么样，最好的方式是先看文章页，再跳转到 GitHub。"
   }
 }

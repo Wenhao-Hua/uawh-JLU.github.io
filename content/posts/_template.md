@@ -1,24 +1,24 @@
 ---
-title: Article Title
+title: 文章标题
 slug: article-slug
 date: 2026-04-19
-category: Research Note
-summary: One-sentence summary of the post.
+category: 研究笔记
+summary: 用一句话概括这篇文章。
 featured: false
-tags: [tag-one, tag-two]
+tags: [标签一, 标签二]
 ---
 
-Write the introduction here.
+这里写文章开头。
 
-## Section Title
+## 小节标题
 
-Continue with the body here.
+这里继续写正文。
 
-- Bullet points are supported
-- Multiple paragraphs are supported
+- 支持项目列表
+- 支持多个自然段
 
-> Quotes are supported
+> 支持引用块
 
-Run:
+生成页面：
 
 `node build.js`
