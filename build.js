@@ -7,7 +7,7 @@ const POSTS_DIR = path.join(CONTENT_DIR, "posts");
 const OUTPUT_POSTS_DIR = path.join(ROOT, "posts");
 const SITE_CONFIG_PATH = path.join(CONTENT_DIR, "site.json");
 
-const GENERATED_ROOT_FILES = [
+const ROOT_PAGES = [
   "index.html",
   "about.html",
   "research.html",
@@ -90,9 +90,7 @@ function parseFrontMatter(raw) {
 
 function parseDateValue(dateInput) {
   const raw = String(dateInput || "").trim();
-  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
-    return new Date(`${raw}T00:00:00Z`);
-  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return new Date(`${raw}T00:00:00Z`);
   return new Date(raw);
 }
 
@@ -169,12 +167,10 @@ function renderMarkdown(markdown) {
       const language = trimmed.slice(3).trim();
       const codeLines = [];
       index += 1;
-
       while (index < lines.length && !/^```/.test(lines[index].trim())) {
         codeLines.push(lines[index]);
         index += 1;
       }
-
       if (index < lines.length) index += 1;
 
       html.push(
@@ -235,7 +231,6 @@ function renderMarkdown(markdown) {
       paragraphLines.push(nextLine.trim());
       index += 1;
     }
-
     html.push(`<p>${renderInline(paragraphLines.join(" "))}</p>`);
   }
 
@@ -249,8 +244,7 @@ function readPosts() {
     .readdirSync(POSTS_DIR)
     .filter((fileName) => fileName.endsWith(".md") && !fileName.startsWith("_"))
     .map((fileName) => {
-      const sourcePath = path.join(POSTS_DIR, fileName);
-      const raw = fs.readFileSync(sourcePath, "utf8");
+      const raw = fs.readFileSync(path.join(POSTS_DIR, fileName), "utf8");
       const { attributes, body } = parseFrontMatter(raw);
       const slug = String(attributes.slug || path.basename(fileName, ".md")).trim();
 
@@ -268,7 +262,6 @@ function readPosts() {
         tags: Array.isArray(attributes.tags)
           ? attributes.tags.map((tag) => String(tag).trim()).filter(Boolean)
           : [],
-        body,
         renderedBody: renderMarkdown(body),
         readingMinutes: estimateReadingMinutes(body),
       };
@@ -277,9 +270,7 @@ function readPosts() {
 
   const slugs = new Set();
   for (const post of posts) {
-    if (slugs.has(post.slug)) {
-      throw new Error(`Duplicate slug "${post.slug}"`);
-    }
+    if (slugs.has(post.slug)) throw new Error(`Duplicate slug "${post.slug}"`);
     slugs.add(post.slug);
   }
 
@@ -287,8 +278,7 @@ function readPosts() {
 }
 
 function toRelativePath(fileName, depth) {
-  const prefix = depth > 0 ? "../".repeat(depth) : "./";
-  return `${prefix}${fileName}`;
+  return `${depth > 0 ? "../".repeat(depth) : "./"}${fileName}`;
 }
 
 function renderLayout({ title, description, stylesheetPath, bodyClass = "", content }) {
@@ -313,8 +303,8 @@ function renderHeader(site, currentPage, depth = 0) {
   return `
       <header class="site-header">
         <a class="brand" href="${escapeHtml(toRelativePath("index.html", depth))}" aria-label="返回首页">
-          <span class="brand-mark">WH</span>
-          <span class="brand-copy">
+          <span class="brand-avatar">WH</span>
+          <span class="brand-text">
             <strong>${escapeHtml(site.author)}</strong>
             <span>${escapeHtml(site.affiliation)}</span>
           </span>
@@ -322,59 +312,13 @@ function renderHeader(site, currentPage, depth = 0) {
 
         <nav class="site-nav" aria-label="主导航">
           ${NAV_ITEMS.map((item) => {
-            const isCurrent = item.key === currentPage;
-            return `<a class="site-nav-link${isCurrent ? " is-current" : ""}" href="${escapeHtml(
-              toRelativePath(item.file, depth),
-            )}">${escapeHtml(item.label)}</a>`;
+            const active = item.key === currentPage ? " is-current" : "";
+            return `<a class="site-nav-link${active}" href="${escapeHtml(toRelativePath(item.file, depth))}">${escapeHtml(
+              item.label,
+            )}</a>`;
           }).join("")}
         </nav>
       </header>
-  `;
-}
-
-function renderSidebar(site, config, depth = 0) {
-  const facts = config.highlights
-    .map(
-      (item) => `
-            <div class="sidebar-fact">
-              <span>${escapeHtml(item.label)}</span>
-              <strong>${escapeHtml(item.value)}</strong>
-            </div>
-      `,
-    )
-    .join("");
-
-  return `
-        <aside class="sidebar">
-          <section class="sidebar-card profile-card">
-            <p class="sidebar-eyebrow">个人信息</p>
-            <h2>${escapeHtml(site.author)}</h2>
-            <p class="profile-affiliation">${escapeHtml(site.affiliation)}</p>
-            <p class="profile-summary">${escapeHtml(config.about.lead)}</p>
-
-            <div class="sidebar-actions">
-              <a class="button button-primary" href="mailto:${escapeHtml(site.email)}">邮箱联系</a>
-              <a class="button button-secondary" href="${escapeHtml(site.github)}" target="_blank" rel="noreferrer">GitHub</a>
-            </div>
-          </section>
-
-          <section class="sidebar-card">
-            <p class="sidebar-eyebrow">站点概览</p>
-            <div class="sidebar-facts">
-${facts}
-            </div>
-          </section>
-
-          <section class="sidebar-card">
-            <p class="sidebar-eyebrow">快速入口</p>
-            <div class="sidebar-links">
-              <a href="${escapeHtml(toRelativePath("writing.html", depth))}">查看文章</a>
-              <a href="${escapeHtml(toRelativePath("research.html", depth))}">研究方向</a>
-              <a href="${escapeHtml(toRelativePath("projects.html", depth))}">项目内容</a>
-              <a href="${escapeHtml(toRelativePath("contact.html", depth))}">联系方式</a>
-            </div>
-          </section>
-        </aside>
   `;
 }
 
@@ -401,37 +345,65 @@ function renderSectionHeading(label, title, copy = "") {
   `;
 }
 
-function renderPageHeader(label, title, summary, actions = []) {
+function renderActionButtons(items) {
   return `
-        <section class="page-header-card">
-          <p class="section-label">${escapeHtml(label)}</p>
-          <h1>${escapeHtml(title)}</h1>
-          <p class="page-header-copy">${escapeHtml(summary)}</p>
-          ${
-            actions.length
-              ? `<div class="section-actions">${actions
-                  .map(
-                    (action, index) =>
-                      `<a class="button ${index === 0 ? "button-primary" : "button-secondary"}" href="${escapeHtml(
-                        action.href,
-                      )}"${/^[a-z]+:/i.test(action.href) ? ' target="_blank" rel="noreferrer"' : ""}>${escapeHtml(
-                        action.label,
-                      )}</a>`,
-                  )
-                  .join("")}</div>`
-              : ""
-          }
-        </section>
+          <div class="action-row">
+            ${items
+              .map(
+                (item, index) =>
+                  `<a class="button ${index === 0 ? "button-primary" : "button-secondary"}" href="${escapeHtml(
+                    item.href,
+                  )}"${/^[a-z]+:/i.test(item.href) ? ' target="_blank" rel="noreferrer"' : ""}>${escapeHtml(
+                    item.label,
+                  )}</a>`,
+              )
+              .join("")}
+          </div>
   `;
 }
 
-function renderInfoGrid(items) {
+function renderSocialLinks(items) {
   return `
-          <div class="info-grid">
+          <div class="social-row">
+            ${items
+              .map(
+                (item) =>
+                  `<a class="social-link" href="${escapeHtml(item.href)}"${
+                    /^[a-z]+:/i.test(item.href) ? ' target="_blank" rel="noreferrer"' : ""
+                  }>${escapeHtml(item.label)}</a>`,
+              )
+              .join("")}
+          </div>
+  `;
+}
+
+function renderEntryCards(items) {
+  return `
+          <div class="entry-grid">
             ${items
               .map(
                 (item) => `
-            <article class="info-card">
+            <a class="entry-card" href="${escapeHtml(item.href)}"${
+                  /^[a-z]+:/i.test(item.href) ? ' target="_blank" rel="noreferrer"' : ""
+                }>
+              <p class="entry-label">${escapeHtml(item.label)}</p>
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.body)}</p>
+            </a>
+            `,
+              )
+              .join("")}
+          </div>
+  `;
+}
+
+function renderFactCards(items) {
+  return `
+          <div class="fact-grid">
+            ${items
+              .map(
+                (item) => `
+            <article class="fact-card">
               <span>${escapeHtml(item.label)}</span>
               <strong>${escapeHtml(item.value)}</strong>
             </article>
@@ -442,14 +414,14 @@ function renderInfoGrid(items) {
   `;
 }
 
-function renderTopicCards(items) {
+function renderContentCards(items) {
   return `
-          <div class="card-grid card-grid-2">
+          <div class="content-grid two-up">
             ${items
               .map(
                 (item) => `
             <article class="content-card">
-              <p class="card-index">${escapeHtml(item.kicker || "主题")}</p>
+              <p class="content-eyebrow">${escapeHtml(item.kicker || item.label || "内容")}</p>
               <h3>${escapeHtml(item.title)}</h3>
               <p>${escapeHtml(item.body)}</p>
             </article>
@@ -460,41 +432,16 @@ function renderTopicCards(items) {
   `;
 }
 
-function renderFeatureCards(items) {
-  return `
-          <div class="card-grid card-grid-2">
-            ${items
-              .map(
-                (item) => `
-            <${item.href ? "a" : "article"} class="content-card feature-card"${
-                  item.href
-                    ? ` href="${escapeHtml(item.href)}"${
-                        /^[a-z]+:/i.test(item.href)
-                          ? ' target="_blank" rel="noreferrer"'
-                          : ""
-                      }`
-                    : ""
-                }>
-              <p class="card-index">${escapeHtml(item.label)}</p>
-              <h3>${escapeHtml(item.title)}</h3>
-              <p>${escapeHtml(item.body)}</p>
-            </${item.href ? "a" : "article"}>
-            `,
-              )
-              .join("")}
-          </div>
-  `;
-}
-
 function renderLinkCards(items) {
   return `
-          <div class="card-grid card-grid-2">
+          <div class="content-grid two-up">
             ${items
               .map(
                 (item) => `
             <a class="content-card link-card" href="${escapeHtml(item.href)}"${
                   /^[a-z]+:/i.test(item.href) ? ' target="_blank" rel="noreferrer"' : ""
                 }>
+              <p class="content-eyebrow">${escapeHtml(item.label)}</p>
               <h3>${escapeHtml(item.label)}</h3>
               <p>${escapeHtml(item.meta)}</p>
             </a>
@@ -508,21 +455,21 @@ function renderLinkCards(items) {
 function renderPostCards(posts, depth = 0) {
   if (!posts.length) {
     return `
-          <div class="card-grid">
+          <div class="content-grid">
             <article class="content-card">
-              <p class="card-index">文章</p>
+              <p class="content-eyebrow">文章</p>
               <h3>还没有文章</h3>
-              <p>在 <code>content/posts</code> 下新增 Markdown 文件后运行 <code>node build.js</code> 即可生成。</p>
+              <p>在 <code>content/posts</code> 里新增 Markdown 文件后，运行 <code>node build.js</code> 就能生成。</p>
             </article>
           </div>
     `;
   }
 
   return `
-          <div class="card-grid">
+          <div class="content-grid">
             ${posts
               .map((post) => {
-                const tags = post.tags.length
+                const tagRow = post.tags.length
                   ? `<div class="tag-row">${post.tags
                       .map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`)
                       .join("")}</div>`
@@ -530,13 +477,13 @@ function renderPostCards(posts, depth = 0) {
 
                 return `
             <article class="content-card post-card">
-              <p class="card-index">${escapeHtml(post.category)} / ${escapeHtml(formatDate(post.date, "short"))}</p>
+              <p class="content-eyebrow">${escapeHtml(post.category)} / ${escapeHtml(formatDate(post.date, "short"))}</p>
               <h3>${escapeHtml(post.title)}</h3>
-              <p>${escapeHtml(post.summary || "补充摘要后，这里会显示更完整的简介。")}</p>
-              ${tags}
-              <div class="section-actions compact-actions">
+              <p>${escapeHtml(post.summary)}</p>
+              ${tagRow}
+              <div class="content-meta">
                 <a class="text-link" href="${escapeHtml(toRelativePath(`posts/${post.slug}.html`, depth))}">阅读全文</a>
-                <span class="muted-text">${post.readingMinutes} 分钟阅读</span>
+                <span>${post.readingMinutes} 分钟阅读</span>
               </div>
             </article>
                 `;
@@ -546,134 +493,28 @@ function renderPostCards(posts, depth = 0) {
   `;
 }
 
-function renderHomeContent(config, posts) {
-  const homeCards = [
-    { label: "关于", title: config.about.title, body: config.about.copy, href: "./about.html" },
-    { label: "研究", title: config.research.title, body: config.research.copy, href: "./research.html" },
-    { label: "项目", title: config.building.title, body: config.building.copy, href: "./projects.html" },
-  ];
-
+function renderPageHero(label, title, subtitle) {
   return `
-${renderPageHeader("首页", config.hero.headline, config.hero.summary, [
-  { label: "阅读文章", href: "./writing.html" },
-  { label: "研究方向", href: "./research.html" },
-])}
-
-        <section class="section-block">
-${renderSectionHeading("概览", "我希望这个主页长期承载什么", "它不只是入口页，更是一个会持续积累内容的公开工作空间。")}
-${renderInfoGrid(config.highlights)}
-        </section>
-
-        <section class="section-block">
-${renderSectionHeading("导航", "站内主要页面", "每个页面都使用统一全局布局，不再单独做一块巨大的头图。")}
-${renderFeatureCards(homeCards)}
-        </section>
-
-        <section class="section-block">
-${renderSectionHeading("文章", "最近更新", "最新写作会保留在首页，但完整归档放在文章页。")}
-${renderPostCards(posts.slice(0, 4))}
+        <section class="page-hero">
+          <p class="section-label">${escapeHtml(label)}</p>
+          <h1>${escapeHtml(title)}</h1>
+          <p class="page-subtitle">${escapeHtml(subtitle)}</p>
         </section>
   `;
 }
 
-function renderAboutContent(config) {
-  const { site, about } = config;
-  return `
-${renderPageHeader("关于", about.title, about.copy, [
-  { label: "查看研究方向", href: "./research.html" },
-  { label: "发送邮件", href: `mailto:${site.email}` },
-])}
-
-        <section class="section-block">
-${renderSectionHeading("简介", "我是谁", "这部分用来稳定地介绍个人背景、兴趣和这个站点的定位。")}
-          <div class="card-grid card-grid-2">
-            <article class="content-card">
-              <p class="card-index">介绍</p>
-              <h3>基本说明</h3>
-              <p class="lead-text">${escapeHtml(about.lead)}</p>
-              <p>${escapeHtml(about.body)}</p>
-            </article>
-
-            <article class="content-card">
-              <p class="card-index">关键词</p>
-              <h3>我正在关注的内容</h3>
-              <div class="tag-row">
-                ${about.keywords.map((item) => `<span class="tag">${escapeHtml(item)}</span>`).join("")}
-              </div>
-            </article>
-          </div>
-        </section>
-  `;
-}
-
-function renderResearchContent(config) {
-  return `
-${renderPageHeader("研究", config.research.title, config.research.copy, [
-  { label: "查看项目", href: "./projects.html" },
-  { label: "阅读文章", href: "./writing.html" },
-])}
-
-        <section class="section-block">
-${renderSectionHeading("方向", "当前重点", "研究页只讲方向，不再用夸张的大标题占满首屏。")}
-${renderTopicCards(config.research.items)}
-        </section>
-  `;
-}
-
-function renderProjectsContent(config) {
-  return `
-${renderPageHeader("项目", config.building.title, config.building.copy, [
-  { label: "主页仓库", href: "https://github.com/Wenhao-Hua/Wenhao-Hua.github.io" },
-  { label: "阅读文章", href: "./writing.html" },
-])}
-
-        <section class="section-block">
-${renderSectionHeading("组织", "项目页准备放什么", "这里更适合放精选项目、实验记录、实现说明和阶段成果。")}
-${renderFeatureCards(config.building.items)}
-        </section>
-  `;
-}
-
-function renderWritingContent(posts) {
-  return `
-${renderPageHeader("文章", "文章与随笔", "所有文章在这里集中展示，每篇文章都可以进入独立详情页。")}
-
-        <section class="section-block">
-${renderSectionHeading("归档", "全部文章", "如果以后文章变多，这里就是主要入口。")}
-${renderPostCards(posts)}
-        </section>
-  `;
-}
-
-function renderContactContent(config) {
-  return `
-${renderPageHeader("联系", config.contact.title, config.contact.copy, [
-  { label: "发送邮件", href: `mailto:${config.site.email}` },
-  { label: "打开 GitHub", href: config.site.github },
-])}
-
-        <section class="section-block">
-${renderSectionHeading("渠道", "常用链接", "联系页保留最直接的对外入口。")}
-${renderLinkCards(config.links)}
-        </section>
-  `;
-}
-
-function renderShell({ site, config, currentPage, title, description, content, depth = 0, bodyClass = "site-page" }) {
+function renderShell({ site, currentPage, title, description, stylesheetPath, content, depth = 0, bodyClass = "" }) {
   return renderLayout({
     title,
     description,
-    stylesheetPath: `${depth > 0 ? "../" : "./"}styles.css?v=20260419-global`,
+    stylesheetPath,
     bodyClass,
     content: `
-    <div class="app-shell">
+    <div class="shell">
 ${renderHeader(site, currentPage, depth)}
-      <div class="site-main">
-${renderSidebar(site, config, depth)}
-        <main class="content-column">
+      <main class="page-main">
 ${content}
-        </main>
-      </div>
+      </main>
 ${renderFooter(site, depth)}
     </div>
     `,
@@ -681,24 +522,138 @@ ${renderFooter(site, depth)}
 }
 
 function renderHomePage(config, posts) {
+  const featuredPosts = posts.slice(0, 3);
+  const homeEntries = [
+    { label: "关于", title: config.about.title, body: config.about.copy, href: "./about.html" },
+    { label: "研究", title: config.research.title, body: config.research.copy, href: "./research.html" },
+    { label: "项目", title: config.building.title, body: config.building.copy, href: "./projects.html" },
+    { label: "文章", title: "文章与随笔", body: "查看研究笔记、项目记录和较长篇幅的写作内容。", href: "./writing.html" },
+  ];
+
   return renderShell({
     site: config.site,
-    config,
     currentPage: "home",
     title: config.site.title,
     description: config.site.description,
-    content: renderHomeContent(config, posts),
+    stylesheetPath: "./styles.css?v=20260419-ref-home",
+    content: `
+        <section class="cover-shell">
+          <div class="cover-panel">
+            <div class="cover-avatar">WH</div>
+            <p class="cover-kicker">${escapeHtml(config.home.kicker)}</p>
+            <h1>${escapeHtml(config.home.title)}</h1>
+            <p class="cover-subtitle">${escapeHtml(config.home.subtitle)}</p>
+            <p class="cover-summary">${escapeHtml(config.home.summary)}</p>
+            <p class="cover-quote">${escapeHtml(config.home.quote)}</p>
+${renderActionButtons([
+  { label: config.home.primaryLabel, href: config.home.primaryHref },
+  { label: config.home.secondaryLabel, href: config.home.secondaryHref },
+])}
+${renderSocialLinks(config.links)}
+          </div>
+        </section>
+
+        <section class="content-section">
+${renderSectionHeading("导航", "站内入口", "参考这两个主页的思路：首屏只负责建立第一印象，详细内容交给下面的入口页。")}
+${renderEntryCards(homeEntries)}
+        </section>
+
+        <section class="content-section">
+${renderSectionHeading("概览", "主页当前聚焦", "保持信息简洁，不在首屏堆太多说明。")}
+${renderFactCards(config.highlights)}
+        </section>
+
+        <section class="content-section">
+${renderSectionHeading("文章", "最近更新", "最近的写作保留在主页，但完整归档仍然在文章页。")}
+${renderPostCards(featuredPosts)}
+        </section>
+    `,
   });
 }
 
-function renderStandardPage(config, currentPage, title, description, content) {
+function renderAboutPage(config) {
+  const cards = [
+    { kicker: "简介", title: "我是谁", body: config.about.lead },
+    { kicker: "定位", title: "为什么做这个站点", body: config.about.body },
+    { kicker: "关键词", title: "研究兴趣", body: config.about.keywords.join(" / ") },
+  ];
+
   return renderShell({
     site: config.site,
-    config,
-    currentPage,
-    title,
-    description,
-    content,
+    currentPage: "about",
+    title: `关于 | ${config.site.author}`,
+    description: config.about.copy,
+    stylesheetPath: "./styles.css?v=20260419-ref-home",
+    content: `
+${renderPageHero("关于", config.about.title, config.about.copy)}
+        <section class="content-section">
+${renderContentCards(cards)}
+        </section>
+    `,
+  });
+}
+
+function renderResearchPage(config) {
+  return renderShell({
+    site: config.site,
+    currentPage: "research",
+    title: `研究 | ${config.site.author}`,
+    description: config.research.copy,
+    stylesheetPath: "./styles.css?v=20260419-ref-home",
+    content: `
+${renderPageHero("研究", config.research.title, config.research.copy)}
+        <section class="content-section">
+${renderContentCards(config.research.items)}
+        </section>
+    `,
+  });
+}
+
+function renderProjectsPage(config) {
+  return renderShell({
+    site: config.site,
+    currentPage: "projects",
+    title: `项目 | ${config.site.author}`,
+    description: config.building.copy,
+    stylesheetPath: "./styles.css?v=20260419-ref-home",
+    content: `
+${renderPageHero("项目", config.building.title, config.building.copy)}
+        <section class="content-section">
+${renderEntryCards(config.building.items)}
+        </section>
+    `,
+  });
+}
+
+function renderWritingPage(config, posts) {
+  return renderShell({
+    site: config.site,
+    currentPage: "writing",
+    title: `文章 | ${config.site.author}`,
+    description: "文章归档与写作页面。",
+    stylesheetPath: "./styles.css?v=20260419-ref-home",
+    content: `
+${renderPageHero("文章", "文章与随笔", "这里集中展示所有已发布的内容，每篇文章都保留独立详情页。")}
+        <section class="content-section">
+${renderPostCards(posts)}
+        </section>
+    `,
+  });
+}
+
+function renderContactPage(config) {
+  return renderShell({
+    site: config.site,
+    currentPage: "contact",
+    title: `联系 | ${config.site.author}`,
+    description: config.contact.copy,
+    stylesheetPath: "./styles.css?v=20260419-ref-home",
+    content: `
+${renderPageHero("联系", config.contact.title, config.contact.copy)}
+        <section class="content-section">
+${renderLinkCards(config.links)}
+        </section>
+    `,
   });
 }
 
@@ -709,31 +664,28 @@ function renderPostPage(config, post) {
 
   return renderShell({
     site: config.site,
-    config,
     currentPage: "writing",
     title: `${post.title} | ${config.site.author}`,
     description: post.summary || config.site.description,
+    stylesheetPath: "../styles.css?v=20260419-ref-home",
     depth: 1,
     bodyClass: "article-page",
     content: `
-        <section class="page-header-card">
-          <p class="section-label">${escapeHtml(post.category)}</p>
-          <h1>${escapeHtml(post.title)}</h1>
-          <p class="page-header-copy">${escapeHtml(post.summary)}</p>
-          ${tags}
-          <div class="meta-row">
+${renderPageHero(post.category, post.title, post.summary)}
+        <section class="content-section article-section">
+          <div class="content-meta article-top-meta">
             <span>${escapeHtml(config.site.author)}</span>
             <span>${escapeHtml(formatDate(post.date, "long"))}</span>
             <span>${post.readingMinutes} 分钟阅读</span>
           </div>
+          ${tags}
+          <a class="text-link article-back" href="../writing.html">返回文章列表</a>
+          <article class="article-card">
+            <section class="article-body">
+              ${post.renderedBody}
+            </section>
+          </article>
         </section>
-
-        <article class="article-card">
-          <a class="text-link back-link" href="../writing.html">返回文章列表</a>
-          <section class="article-body">
-            ${post.renderedBody}
-          </section>
-        </article>
     `,
   });
 }
@@ -741,83 +693,48 @@ function renderPostPage(config, post) {
 function renderNotFoundPage(config) {
   return renderShell({
     site: config.site,
-    config,
     currentPage: "",
     title: `页面不存在 | ${config.site.author}`,
     description: config.site.description,
+    stylesheetPath: "./styles.css?v=20260419-ref-home",
     content: `
-        <section class="page-header-card">
-          <p class="section-label">404</p>
-          <h1>页面不存在</h1>
-          <p class="page-header-copy">你访问的页面不存在，或者已经被移动。</p>
-          <div class="section-actions">
-            <a class="button button-primary" href="./index.html">返回首页</a>
-          </div>
+${renderPageHero("404", "页面不存在", "你访问的页面不存在，或者已经被移动。")}
+        <section class="content-section">
+${renderActionButtons([{ label: "返回首页", href: "./index.html" }])}
         </section>
     `,
   });
 }
 
-function cleanGeneratedRootFiles() {
-  for (const fileName of GENERATED_ROOT_FILES) {
+function cleanRootPages() {
+  for (const fileName of ROOT_PAGES) {
     const fullPath = path.join(ROOT, fileName);
-    if (fs.existsSync(fullPath)) {
-      fs.unlinkSync(fullPath);
-    }
+    if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
   }
 }
 
-function cleanGeneratedPostFiles() {
+function cleanPostPages() {
   ensureDir(OUTPUT_POSTS_DIR);
   for (const fileName of fs.readdirSync(OUTPUT_POSTS_DIR)) {
-    if (fileName.endsWith(".html")) {
-      fs.unlinkSync(path.join(OUTPUT_POSTS_DIR, fileName));
-    }
+    if (fileName.endsWith(".html")) fs.unlinkSync(path.join(OUTPUT_POSTS_DIR, fileName));
   }
 }
 
-function writeGeneratedFiles(config, posts) {
-  cleanGeneratedRootFiles();
-  cleanGeneratedPostFiles();
+function writePages(config, posts) {
+  cleanRootPages();
+  cleanPostPages();
 
-  const rootPages = [
+  const pages = [
     { file: "index.html", content: renderHomePage(config, posts) },
-    {
-      file: "about.html",
-      content: renderStandardPage(config, "about", `关于 | ${config.site.author}`, config.about.copy, renderAboutContent(config)),
-    },
-    {
-      file: "research.html",
-      content: renderStandardPage(
-        config,
-        "research",
-        `研究 | ${config.site.author}`,
-        config.research.copy,
-        renderResearchContent(config),
-      ),
-    },
-    {
-      file: "projects.html",
-      content: renderStandardPage(
-        config,
-        "projects",
-        `项目 | ${config.site.author}`,
-        config.building.copy,
-        renderProjectsContent(config),
-      ),
-    },
-    {
-      file: "writing.html",
-      content: renderStandardPage(config, "writing", `文章 | ${config.site.author}`, "文章归档与写作页面。", renderWritingContent(posts)),
-    },
-    {
-      file: "contact.html",
-      content: renderStandardPage(config, "contact", `联系 | ${config.site.author}`, config.contact.copy, renderContactContent(config)),
-    },
+    { file: "about.html", content: renderAboutPage(config) },
+    { file: "research.html", content: renderResearchPage(config) },
+    { file: "projects.html", content: renderProjectsPage(config) },
+    { file: "writing.html", content: renderWritingPage(config, posts) },
+    { file: "contact.html", content: renderContactPage(config) },
     { file: "404.html", content: renderNotFoundPage(config) },
   ];
 
-  for (const page of rootPages) {
+  for (const page of pages) {
     fs.writeFileSync(path.join(ROOT, page.file), page.content, "utf8");
   }
 
@@ -829,8 +746,8 @@ function writeGeneratedFiles(config, posts) {
 function build() {
   const config = readJson(SITE_CONFIG_PATH);
   const posts = readPosts();
-  writeGeneratedFiles(config, posts);
-  console.log(`Built ${GENERATED_ROOT_FILES.length} pages and ${posts.length} post(s) into ${ROOT}.`);
+  writePages(config, posts);
+  console.log(`Built ${ROOT_PAGES.length} pages and ${posts.length} post(s) into ${ROOT}.`);
 }
 
 build();
