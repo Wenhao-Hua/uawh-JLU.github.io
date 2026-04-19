@@ -6,11 +6,11 @@
     <meta name="description" content="文章归档与写作页面。" />
     <title>文章 | Wenhao Hua</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="./styles.css?v=20260419-multipage" />
+    <link rel="stylesheet" href="./styles.css?v=20260419-global" />
   </head>
   <body class="site-page">
 
-    <div class="page-shell">
+    <div class="app-shell">
 
       <header class="site-header">
         <a class="brand" href="./index.html" aria-label="返回首页">
@@ -26,35 +26,89 @@
         </nav>
       </header>
   
-      <main>
+      <div class="site-main">
+
+        <aside class="sidebar">
+          <section class="sidebar-card profile-card">
+            <p class="sidebar-eyebrow">个人信息</p>
+            <h2>Wenhao Hua</h2>
+            <p class="profile-affiliation">吉林大学</p>
+            <p class="profile-summary">我是吉林大学本科生，关注时间序列分析、大语言模型，以及围绕记忆机制展开的建模问题。</p>
+
+            <div class="sidebar-actions">
+              <a class="button button-primary" href="mailto:huawh5523@mails.jlu.edu.cn">邮箱联系</a>
+              <a class="button button-secondary" href="https://github.com/Wenhao-Hua" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+          </section>
+
+          <section class="sidebar-card">
+            <p class="sidebar-eyebrow">站点概览</p>
+            <div class="sidebar-facts">
+
+            <div class="sidebar-fact">
+              <span>学校</span>
+              <strong>吉林大学</strong>
+            </div>
+      
+            <div class="sidebar-fact">
+              <span>兴趣方向</span>
+              <strong>时间序列 / 大模型 / 记忆机制</strong>
+            </div>
+      
+            <div class="sidebar-fact">
+              <span>站点类型</span>
+              <strong>个人主页 + 静态博客</strong>
+            </div>
+      
+            <div class="sidebar-fact">
+              <span>部署方式</span>
+              <strong>GitHub Pages</strong>
+            </div>
+      
+            </div>
+          </section>
+
+          <section class="sidebar-card">
+            <p class="sidebar-eyebrow">快速入口</p>
+            <div class="sidebar-links">
+              <a href="./writing.html">查看文章</a>
+              <a href="./research.html">研究方向</a>
+              <a href="./projects.html">项目内容</a>
+              <a href="./contact.html">联系方式</a>
+            </div>
+          </section>
+        </aside>
+  
+        <main class="content-column">
 
 
-        <section class="page-intro">
+        <section class="page-header-card">
           <p class="section-label">文章</p>
           <h1>文章与随笔</h1>
-          <p class="page-intro-copy">这一页汇总所有已发布内容，每篇文章都可以跳转到独立详情页。</p>
-          <div class="hero-actions"><a class="button button-primary" href="./index.html">返回首页</a></div>
+          <p class="page-header-copy">所有文章在这里集中展示，每篇文章都可以进入独立详情页。</p>
+          
         </section>
   
-        <section class="section">
+
+        <section class="section-block">
 
           <div class="section-heading">
             <p class="section-label">归档</p>
             <h2>全部文章</h2>
-            <p class="section-copy">较长的思考和笔记适合放在这里，而不是散落在各个仓库 README 里。</p>
+            <p class="section-copy">如果以后文章变多，这里就是主要入口。</p>
           </div>
   
 
-          <div class="post-grid">
+          <div class="card-grid">
             
-            <article class="post-card post-card-featured">
-              <p class="post-meta">起步 / 2026/4/18</p>
+            <article class="content-card post-card">
+              <p class="card-index">起步 / 2026/4/18</p>
               <h3>为什么我把主页改成了中文多页面站点</h3>
               <p>从一个极简个人页，改成一个可以持续更新、支持多页面跳转的中文主页。</p>
               <div class="tag-row"><span class="tag">主页</span><span class="tag">工作流</span><span class="tag">笔记</span></div>
-              <div class="post-actions">
+              <div class="section-actions compact-actions">
                 <a class="text-link" href="./posts/welcome.html">阅读全文</a>
-                <a class="text-link text-link-muted" href="./writing.html">全部文章</a>
+                <span class="muted-text">1 分钟阅读</span>
               </div>
             </article>
                 
@@ -62,14 +116,15 @@
   
         </section>
   
-      </main>
+        </main>
+      </div>
 
       <footer class="site-footer">
         <p>Wenhao Hua / 吉林大学</p>
         <div class="footer-links">
           <a href="./index.html">首页</a>
           <a href="https://github.com/Wenhao-Hua" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="mailto:huawh5523@mails.jlu.edu.cn">邮箱</a>
+          <a href="mailto:huawh5523@mails.jlu.edu.cn">huawh5523@mails.jlu.edu.cn</a>
         </div>
       </footer>
   
