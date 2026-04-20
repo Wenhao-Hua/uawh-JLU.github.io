@@ -1083,3 +1083,21 @@ input, select, textarea {
 		#header nav {
 			padding: 0 1em;
 		} }
+
+/* Custom Background */
+
+	#bg {
+		-moz-animation: none !important;
+		-webkit-animation: none !important;
+		-ms-animation: none !important;
+		animation: none !important;
+		background:
+			radial-gradient(circle at 18% 20%, rgba(88, 197, 255, 0.35), rgba(88, 197, 255, 0) 28%),
+			radial-gradient(circle at 78% 18%, rgba(255, 202, 128, 0.24), rgba(255, 202, 128, 0) 30%),
+			linear-gradient(135deg, rgba(8, 22, 42, 0.92), rgba(20, 73, 105, 0.86) 48%, rgba(5, 12, 24, 0.96)),
+			linear-gradient(180deg, #0d1b2a, #07111f);
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 100%;
+		width: 100%;
+	}
