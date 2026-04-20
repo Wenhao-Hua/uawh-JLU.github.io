@@ -674,19 +674,13 @@ input, select, textarea {
 					-webkit-transition: all 0.2s ease-in-out;
 					-ms-transition: all 0.2s ease-in-out;
 					transition: all 0.2s ease-in-out;
-					background-color: rgba(5, 12, 28, 0.34);
 					border-radius: 100%;
-					border: solid 1.5px rgba(255, 255, 255, 0.9);
-					box-shadow:
-						0 10px 32px rgba(0, 0, 0, 0.34),
-						0 0 20px rgba(255, 255, 255, 0.16),
-						inset 0 1px 0 rgba(255, 255, 255, 0.22);
+					border: solid 1px #fff;
 					display: block;
 					font-size: 1.75em;
 					height: 2.5em;
 					line-height: 2.5em;
 					position: relative;
-					text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 					text-align: center;
 					top: 0;
 					width: 2.5em;
@@ -697,12 +691,7 @@ input, select, textarea {
 				}
 
 					#header nav a:hover:before {
-						background-color: rgba(255, 255, 255, 0.24);
-						border-color: #fff;
-						box-shadow:
-							0 12px 38px rgba(0, 0, 0, 0.38),
-							0 0 30px rgba(255, 255, 255, 0.34),
-							inset 0 1px 0 rgba(255, 255, 255, 0.35);
+						background-color: rgba(255, 255, 255, 0.175);
 						color: #fff;
 					}
 
@@ -1175,13 +1164,4 @@ input, select, textarea {
 
 	#header p {
 		text-shadow: 0 1px 18px rgba(0, 0, 0, 0.44);
-	}
-
-	#header nav a:before {
-		box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0);
-	}
-
-	#header nav a:hover:before {
-		border-color: rgba(var(--accent-rgb), 0.82);
-		box-shadow: 0 0 28px rgba(var(--accent-rgb), 0.26);
 	}
