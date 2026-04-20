@@ -65,21 +65,6 @@
 		<a href="/en/" class="active">EN</a>
 	</div>
 
-	<div id="wallpaper-switch" aria-label="Wallpaper style">
-		<button type="button" data-wallpaper="sunset">
-			<span class="thumb" aria-hidden="true"></span>
-			<span class="name">Quiet Dusk</span>
-		</button>
-		<button type="button" data-wallpaper="wave">
-			<span class="thumb" aria-hidden="true"></span>
-			<span class="name">Great Wave</span>
-		</button>
-		<button type="button" data-wallpaper="lake">
-			<span class="thumb" aria-hidden="true"></span>
-			<span class="name">Suzume Lake</span>
-		</button>
-	</div>
-
 	<div id="wrapper">
 		<div id="bg"></div>
 		<div id="overlay"></div>
@@ -104,39 +89,6 @@
 		</div>
 	</div>
 	<script>
-		(function () {
-			var storageKey = 'wenhao-homepage-wallpaper';
-			var buttons = document.querySelectorAll('#wallpaper-switch button');
-			var wallpapers = {};
-			for (var i = 0; i < buttons.length; i++) {
-				wallpapers[buttons[i].getAttribute('data-wallpaper')] = true;
-			}
-			var applyWallpaper = function (name) {
-				if (!wallpapers[name]) {
-					name = 'sunset';
-				}
-				document.body.setAttribute('data-wallpaper', name);
-				for (var i = 0; i < buttons.length; i++) {
-					var isActive = buttons[i].getAttribute('data-wallpaper') === name;
-					buttons[i].classList.toggle('active', isActive);
-					buttons[i].setAttribute('aria-pressed', isActive ? 'true' : 'false');
-				}
-				try {
-					window.localStorage.setItem(storageKey, name);
-				} catch (error) {}
-			};
-			var initialWallpaper = 'sunset';
-			try {
-				initialWallpaper = window.localStorage.getItem(storageKey) || initialWallpaper;
-			} catch (error) {}
-			for (var i = 0; i < buttons.length; i++) {
-				buttons[i].onclick = function () {
-					applyWallpaper(this.getAttribute('data-wallpaper'));
-				};
-			}
-			applyWallpaper(initialWallpaper);
-		})();
-
 		window.onload = function () {
 			document.body.classList.remove('is-preload');
 		};

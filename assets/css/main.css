@@ -1089,20 +1089,6 @@ input, select, textarea {
 		--shade: rgba(8, 10, 21, 0.58);
 	}
 
-	body[data-wallpaper="wave"] {
-		--accent: #8bc9ff;
-		--accent-rgb: 139, 201, 255;
-		--glass: rgba(10, 28, 48, 0.36);
-		--shade: rgba(4, 17, 31, 0.52);
-	}
-
-	body[data-wallpaper="lake"] {
-		--accent: #b5f2d6;
-		--accent-rgb: 181, 242, 214;
-		--glass: rgba(12, 34, 28, 0.34);
-		--shade: rgba(4, 17, 19, 0.54);
-	}
-
 	#lang-switch {
 		background: rgba(8, 12, 22, 0.24);
 		border: 1px solid rgba(255, 255, 255, 0.18);
@@ -1114,90 +1100,6 @@ input, select, textarea {
 	#lang-switch a.active {
 		color: var(--accent);
 		text-shadow: 0 0 24px rgba(var(--accent-rgb), 0.46);
-	}
-
-	#wallpaper-switch {
-		display: flex;
-		flex-direction: column;
-		gap: 0.58rem;
-		left: 1.6rem;
-		position: fixed;
-		top: 1.35rem;
-		z-index: 5;
-	}
-
-	#wallpaper-switch button {
-		-moz-appearance: none;
-		-webkit-appearance: none;
-		appearance: none;
-		align-items: center;
-		background: rgba(255, 255, 255, 0.075);
-		border: 1px solid rgba(255, 255, 255, 0.16);
-		border-radius: 1rem;
-		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-		color: rgba(255, 255, 255, 0.76);
-		cursor: pointer;
-		display: flex;
-		font: inherit;
-		font-size: 0.72rem;
-		gap: 0.62rem;
-		letter-spacing: 0.06em;
-		line-height: 1;
-		min-width: 9.8rem;
-		padding: 0.46rem 0.72rem 0.46rem 0.46rem;
-		text-align: left;
-		transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-	}
-
-	#wallpaper-switch button:hover,
-	#wallpaper-switch button.active {
-		background: rgba(255, 255, 255, 0.17);
-		border-color: rgba(var(--accent-rgb), 0.72);
-		color: #fff;
-		transform: translateX(0.18rem);
-	}
-
-	#wallpaper-switch button.active {
-		box-shadow:
-			inset 0 1px 0 rgba(255, 255, 255, 0.16),
-			0 0 24px rgba(var(--accent-rgb), 0.22);
-	}
-
-	#wallpaper-switch .thumb {
-		background-position: center center;
-		background-repeat: no-repeat;
-		background-size: cover;
-		border-radius: 0.78rem;
-		box-shadow: 0 8px 18px rgba(0, 0, 0, 0.26);
-		display: block;
-		flex: 0 0 auto;
-		height: 2.15rem;
-		overflow: hidden;
-		position: relative;
-		width: 2.8rem;
-	}
-
-	#wallpaper-switch .thumb:after {
-		background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0));
-		content: '';
-		inset: 0;
-		position: absolute;
-	}
-
-	#wallpaper-switch button[data-wallpaper="sunset"] .thumb {
-		background-image: url("images/wallpapers/sunset.gif");
-	}
-
-	#wallpaper-switch button[data-wallpaper="wave"] .thumb {
-		background-image: url("images/wallpapers/wave.gif");
-	}
-
-	#wallpaper-switch button[data-wallpaper="lake"] .thumb {
-		background-image: url("images/wallpapers/lake.gif");
-	}
-
-	#wallpaper-switch .name {
-		white-space: nowrap;
 	}
 
 	#bg {
@@ -1231,10 +1133,7 @@ input, select, textarea {
 	}
 
 	#bg:after {
-		background:
-			radial-gradient(circle at 50% 42%, rgba(var(--accent-rgb), 0.13), transparent 25%),
-			radial-gradient(circle at 50% 47%, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.48) 68%),
-			linear-gradient(180deg, rgba(5, 10, 20, 0.12), var(--shade));
+		background: none;
 		inset: 0;
 		transition: background 0.35s ease;
 	}
@@ -1259,43 +1158,5 @@ input, select, textarea {
 	}
 
 	body[data-wallpaper="sunset"] #bg:before {
-		background-image: url("images/wallpapers/sunset.jpg");
-	}
-
-	body[data-wallpaper="wave"] #bg:before {
-		background-image: url("images/wallpapers/wave.jpg");
-		filter: none;
-	}
-
-	body[data-wallpaper="lake"] #bg:before {
-		background-image: url("images/wallpapers/lake.jpg");
-		filter: none;
-	}
-
-	@media screen and (max-width: 736px) {
-		#wallpaper-switch {
-			bottom: 0.9rem;
-			flex-direction: row;
-			left: 50%;
-			max-width: calc(100% - 1.5rem);
-			overflow-x: auto;
-			top: auto;
-			transform: translateX(-50%);
-		}
-
-		#wallpaper-switch button {
-			font-size: 0.66rem;
-			min-width: 6.6rem;
-			padding: 0.42rem;
-		}
-
-		#wallpaper-switch button:hover,
-		#wallpaper-switch button.active {
-			transform: translateY(-0.12rem);
-		}
-
-		#wallpaper-switch .thumb {
-			height: 1.8rem;
-			width: 2.25rem;
-		}
+		background-image: url("images/wallpapers/sunset.gif");
 	}
